@@ -34,7 +34,8 @@ function switchView(view) {
         'termine': 'Termine verwalten',
         'buchungen': 'Buchungen',
         'kontakt': 'Kontaktanfragen',
-        'galerie': 'Galerie'
+        'galerie': 'Galerie',
+        'benutzer': 'Benutzerverwaltung'
     };
     document.getElementById('page-title').textContent = titles[view];
     
@@ -66,7 +67,7 @@ async function loadViewData(view) {
             loadGalerie();
             break;
         case 'benutzer':
-            // später: loadBenutzer();
+            loadBenutzer();
             break;
     }
 }
@@ -697,3 +698,142 @@ async function saveImageDetails() {
 
 // Initial Load
 loadDashboard();
+
+// ============================================
+// BENUTZER-VERWALTUNG
+// ============================================
+
+const BENUTZER_API = `${ADMIN_BASE}/benutzer-api.php`;
+
+async function loadBenutzer() {
+    try {
+        const response = await fetch(`${BENUTZER_API}?action=benutzer`);
+        const data = await response.json();
+        
+        const container = document.getElementById('benutzer-list');
+        
+        if (data.success && data.data.length > 0) {
+            container.innerHTML = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>E-Mail</th>
+                            <th>Rolle</th>
+                            <th>Status</th>
+                            <th>Erstellt am</th>
+                            <th>Letzter Login</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.data.map(user => `
+                            <tr>
+                                <td><strong>${user.name}</strong></td>
+                                <td>${user.email}</td>
+                                <td><span class="badge ${user.rolle === 'admin' ? 'badge-danger' : 'badge-success'}">${user.rolle}</span></td>
+                                <td><span class="badge ${user.ist_aktiv ? 'badge-success' : 'badge-warning'}">${user.ist_aktiv ? 'Aktiv' : 'Inaktiv'}</span></td>
+                                <td>${formatDate(user.erstellt_am)}</td>
+                                <td>${user.letzter_login ? formatDate(user.letzter_login) : '—'}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-secondary" onclick="toggleBenutzer(${user.id})">${user.ist_aktiv ? 'Deaktivieren' : 'Aktivieren'}</button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteBenutzer(${user.id})">Löschen</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        } else {
+            container.innerHTML = '<div class="loading">Keine Benutzer vorhanden</div>';
+        }
+    } catch (error) {
+        console.error('Fehler:', error);
+        document.getElementById('benutzer-list').innerHTML = '<div class="loading">Fehler beim Laden</div>';
+    }
+}
+
+function showAddBenutzerForm() {
+    document.getElementById('benutzer-modal').classList.add('active');
+}
+
+function closeBenutzerModal() {
+    document.getElementById('benutzer-modal').classList.remove('active');
+    document.getElementById('benutzer-form').reset();
+}
+
+// Benutzer hinzufügen
+document.addEventListener('DOMContentLoaded', () => {
+    const benutzerForm = document.getElementById('benutzer-form');
+    if (benutzerForm) {
+        benutzerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('benutzer-name').value;
+            const email = document.getElementById('benutzer-email').value;
+            const rolle = document.getElementById('benutzer-rolle').value;
+            
+            try {
+                const response = await fetch(`${BENUTZER_API}?action=add_benutzer`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, rolle })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ Benutzer erstellt! E-Mail mit Passwort-Link wurde versendet an: ' + email);
+                    console.log('Reset-Link:', result.reset_link);
+                    closeBenutzerModal();
+                    loadBenutzer();
+                } else {
+                    alert('❌ Fehler: ' + (result.error || 'Unbekannter Fehler'));
+                }
+            } catch (err) {
+                alert('❌ Fehler beim Speichern!');
+            }
+        });
+    }
+});
+
+async function deleteBenutzer(id) {
+    if (!confirm('🗑️ Möchtest du diesen Benutzer wirklich löschen?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${BENUTZER_API}?action=delete_benutzer`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        });
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('✅ Benutzer gelöscht!');
+            loadBenutzer();
+        } else {
+            alert('❌ Fehler: ' + result.error);
+        }
+    } catch (error) {
+        alert('❌ Fehler beim Löschen!');
+    }
+}
+
+async function toggleBenutzer(id) {
+    try {
+        const response = await fetch(`${BENUTZER_API}?action=toggle_benutzer`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        });
+        const result = await response.json();
+        
+        if (result.success) {
+            loadBenutzer();
+        } else {
+            alert('❌ Fehler: ' + result.error);
+        }
+    } catch (error) {
+        alert('❌ Fehler beim Aktualisieren!');
+    }
+}

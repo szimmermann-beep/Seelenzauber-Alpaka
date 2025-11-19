@@ -151,6 +151,12 @@
                     <div id="galerie-list" class="gallery-grid"></div>
                 </div>
 
+                <!-- Benutzer View -->
+                <div id="view-benutzer" class="view">
+                    <button class="btn btn-primary" onclick="showAddBenutzerForm()">+ Neuer Benutzer</button>
+                    <div id="benutzer-list" class="data-table"></div>
+                </div>
+
                 <!-- Einstellungen View -->
                 <div id="view-einstellungen" class="view">
                     <div class="settings-container">
@@ -191,6 +197,41 @@
             </div>
         </main>
     </div>
+
+                <!-- Benutzer-Modal -->
+                <div id="benutzer-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Neuen Benutzer anlegen</h2>
+                            <button class="modal-close" onclick="closeBenutzerModal()">&times;</button>
+                        </div>
+                        <form id="benutzer-form" class="modal-body">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" id="benutzer-name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>E-Mail</label>
+                                <input type="email" id="benutzer-email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Rolle</label>
+                                <select id="benutzer-rolle" class="form-control" required>
+                                    <option value="admin">Admin</option>
+                                    <option value="editor" selected>Editor</option>
+                                    <option value="viewer">Viewer</option>
+                                </select>
+                            </div>
+                            <div class="modal-actions">
+                                <button type="submit" class="btn btn-primary">💾 Benutzer anlegen</button>
+                                <button type="button" class="btn btn-secondary" onclick="closeBenutzerModal()">Abbrechen</button>
+                            </div>
+                            <p style="margin-top: 16px; color: #666; font-size: 0.875rem;">
+                                ℹ️ Der Benutzer erhält eine E-Mail mit einem Link zum Festlegen des Passworts.
+                            </p>
+                        </form>
+                    </div>
+                </div>
 
     <!-- Bild-Detail Modal -->
     <div id="image-modal" class="modal">
