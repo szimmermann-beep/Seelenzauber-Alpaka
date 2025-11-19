@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Seelenzauber Alpaka</title>
-    <link rel="stylesheet" href="css/admin.css?v=20251119-1350">
+    <link rel="stylesheet" href="css/admin.css?v=20251119-1526">
 </head>
 <body>
     <div class="admin-container">
@@ -12,7 +12,7 @@
         <aside class="sidebar">
             <div class="logo">🦙 Admin Panel</div>
             <nav class="admin-nav">
-                <a href="#dashboard" class="nav-item active" data-view="dashboard">
+                <a href="#dashboard" class="nav-item" data-view="dashboard">
                     📊 Dashboard
                 </a>
                 <a href="#einstellungen" class="nav-item" data-view="einstellungen">
@@ -32,6 +32,9 @@
                 </a>
                 <a href="#galerie" class="nav-item" data-view="galerie">
                     🖼️ Galerie
+                </a>
+                <a href="#benutzer" class="nav-item" data-view="benutzer">
+                    🧑 Benutzer
                 </a>
             </nav>
             <div class="sidebar-footer">
@@ -86,6 +89,46 @@
                 <div id="view-termine" class="view">
                     <button class="btn btn-primary" onclick="showAddTerminForm()">+ Neuer Termin</button>
                     <div id="termine-list" class="data-table"></div>
+                </div>
+
+                <!-- Termin-Modal -->
+                <div id="termin-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Neuen Termin anlegen</h2>
+                            <button class="modal-close" onclick="closeTerminModal()">&times;</button>
+                        </div>
+                        <form id="termin-form" class="modal-body">
+                            <div class="form-group">
+                                <label>Titel</label>
+                                <input type="text" id="termin-titel" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Datum</label>
+                                <input type="date" id="termin-datum" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Uhrzeit von</label>
+                                <input type="time" id="termin-uhrzeit-von" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Uhrzeit bis</label>
+                                <input type="time" id="termin-uhrzeit-bis" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Max. Teilnehmer</label>
+                                <input type="number" id="termin-max-teilnehmer" class="form-control" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Preis (€)</label>
+                                <input type="number" id="termin-preis" class="form-control" min="0" step="0.01" required>
+                            </div>
+                            <div class="modal-actions">
+                                <button type="submit" class="btn btn-primary">💾 Termin speichern</button>
+                                <button type="button" class="btn btn-secondary" onclick="closeTerminModal()">Abbrechen</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
                 <!-- Buchungen View -->
@@ -195,6 +238,6 @@
         </div>
     </div>
 
-    <script src="js/admin.js?v=20251119-1350"></script>
+    <script src="js/admin.js?v=20251119-1526"></script>
 </body>
 </html>
