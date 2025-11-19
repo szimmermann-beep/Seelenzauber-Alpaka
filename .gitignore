@@ -1,0 +1,27 @@
+# Umgebungsvariablen
+.env
+.env.local
+.env.production
+
+# Abhängigkeiten
+node_modules/
+vendor/
+
+# Build-Outputs
+dist/
+build/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Datenbank-Backups
+*.sql
+backups/
