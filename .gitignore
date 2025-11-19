@@ -3,6 +3,9 @@
 .env.local
 .env.production
 
+# Konfigurationsdateien mit Passwörtern
+backend/api/config.php
+
 # Abhängigkeiten
 node_modules/
 vendor/
