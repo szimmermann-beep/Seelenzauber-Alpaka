@@ -15,7 +15,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Alpakas laden
 async function loadAlpakas() {
     try {
-        const response = await fetch(`${API_URL}/index.php?action=alpakas`);
+        const response = await fetch(`${API_URL}/api.php?action=alpakas`);
         const data = await response.json();
         
         const container = document.getElementById('alpakas-container');
@@ -49,7 +49,7 @@ async function loadAlpakas() {
 // Termine laden
 async function loadTermine() {
     try {
-        const response = await fetch(`${API_URL}/index.php?action=termine`);
+        const response = await fetch(`${API_URL}/api.php?action=termine`);
         const data = await response.json();
         
         const container = document.getElementById('termine-container');
@@ -84,7 +84,7 @@ async function loadTermine() {
 // Galerie laden
 async function loadGalerie() {
     try {
-        const response = await fetch(`${API_URL}/index.php?action=galerie`);
+        const response = await fetch(`${API_URL}/api.php?action=galerie`);
         const data = await response.json();
         
         const container = document.getElementById('galerie-container');
@@ -113,7 +113,7 @@ document.getElementById('kontakt-form').addEventListener('submit', async (e) => 
     const data = Object.fromEntries(formData);
     
     try {
-        const response = await fetch(`${API_URL}/index.php?action=kontakt`, {
+        const response = await fetch(`${API_URL}/api.php?action=kontakt`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -152,7 +152,7 @@ function bucheTermin(terminId, titel) {
     const telefon = prompt('Deine Telefonnummer (optional):');
     const anzahl = prompt('Anzahl Personen:', '1');
     
-    fetch(`${API_URL}/index.php?action=buchung`, {
+    fetch(`${API_URL}/api.php?action=buchung`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,0 +1,10 @@
+DirectoryIndex index.html index.php
+
+# Rewrite Engine aktivieren
+RewriteEngine On
+
+# Leite alle nicht-existierenden Dateien/Verzeichnisse auf die API um
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^api/(.*)$ index.php?action=$1 [L,QSA]
