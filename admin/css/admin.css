@@ -459,6 +459,10 @@ textarea.form-control {
     white-space: nowrap;
 }
 
+/* Utilities */
+.ml-12 { margin-left: 12px; }
+.hint-text { margin-top: 16px; color: #666; font-size: 0.875rem; }
+
 /* Responsive */
 @media (max-width: 768px) {
     .image-detail-container {

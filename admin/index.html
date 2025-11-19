@@ -61,7 +61,7 @@
                 <h1 id="page-title">Dashboard</h1>
                 <div class="user-info">
                     <span>Admin</span>
-                    <a href="#" onclick="logout(); return false;" class="btn btn-secondary" style="margin-left:12px;">Abmelden</a>
+                    <a href="#" onclick="logout(); return false;" class="btn btn-secondary ml-12">Abmelden</a>
                 </div>
             </header>
 
@@ -114,27 +114,27 @@
                         </div>
                         <form id="termin-form" class="modal-body">
                             <div class="form-group">
-                                <label>Titel</label>
+                                <label for="termin-titel">Titel</label>
                                 <input type="text" id="termin-titel" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Datum</label>
+                                <label for="termin-datum">Datum</label>
                                 <input type="date" id="termin-datum" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Uhrzeit von</label>
+                                <label for="termin-uhrzeit-von">Uhrzeit von</label>
                                 <input type="time" id="termin-uhrzeit-von" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Uhrzeit bis</label>
+                                <label for="termin-uhrzeit-bis">Uhrzeit bis</label>
                                 <input type="time" id="termin-uhrzeit-bis" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Max. Teilnehmer</label>
+                                <label for="termin-max-teilnehmer">Max. Teilnehmer</label>
                                 <input type="number" id="termin-max-teilnehmer" class="form-control" min="1" required>
                             </div>
                             <div class="form-group">
-                                <label>Preis (€)</label>
+                                <label for="termin-preis">Preis (€)</label>
                                 <input type="number" id="termin-preis" class="form-control" min="0" step="0.01" required>
                             </div>
                             <div class="modal-actions">
@@ -173,31 +173,31 @@
                         <h2>Website-Einstellungen</h2>
                         <form id="settings-form" class="settings-form">
                             <div class="form-group">
-                                <label>Website-Name</label>
+                                <label for="site-name">Website-Name</label>
                                 <input type="text" id="site-name" class="form-control" placeholder="Seelenzauber Alpaka">
                             </div>
                             <div class="form-group">
-                                <label>Website-Beschreibung (SEO)</label>
+                                <label for="site-description">Website-Beschreibung (SEO)</label>
                                 <textarea id="site-description" class="form-control" rows="3" placeholder="Alpaka-Wanderungen und -Erlebnisse..."></textarea>
                             </div>
                             <div class="form-group">
-                                <label>Keywords (Google, kommagetrennt)</label>
+                                <label for="site-keywords">Keywords (Google, kommagetrennt)</label>
                                 <input type="text" id="site-keywords" class="form-control" placeholder="Alpaka, Wanderung, Tirol">
                             </div>
                             <div class="form-group">
-                                <label>Favicon URL</label>
+                                <label for="site-favicon">Favicon URL</label>
                                 <input type="text" id="site-favicon" class="form-control" placeholder="/images/favicon.ico">
                             </div>
                             <div class="form-group">
-                                <label>Open Graph Bild (Facebook/Social)</label>
+                                <label for="site-og-image">Open Graph Bild (Facebook/Social)</label>
                                 <input type="text" id="site-og-image" class="form-control" placeholder="/images/og-image.jpg">
                             </div>
                             <div class="form-group">
-                                <label>Google Analytics ID</label>
+                                <label for="site-ga-id">Google Analytics ID</label>
                                 <input type="text" id="site-ga-id" class="form-control" placeholder="G-XXXXXXXXXX">
                             </div>
                             <div class="form-group">
-                                <label>Microsoft Clarity ID</label>
+                                <label for="site-clarity-id">Microsoft Clarity ID</label>
                                 <input type="text" id="site-clarity-id" class="form-control" placeholder="XXXXXXXXXX">
                             </div>
                             <button type="submit" class="btn btn-primary">Einstellungen speichern</button>
@@ -217,15 +217,15 @@
                         </div>
                         <form id="benutzer-form" class="modal-body">
                             <div class="form-group">
-                                <label>Name</label>
+                                <label for="benutzer-name">Name</label>
                                 <input type="text" id="benutzer-name" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>E-Mail</label>
+                                <label for="benutzer-email">E-Mail</label>
                                 <input type="email" id="benutzer-email" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Rolle</label>
+                                <label for="benutzer-rolle">Rolle</label>
                                 <select id="benutzer-rolle" class="form-control" required>
                                     <option value="admin">Admin</option>
                                     <option value="editor" selected>Editor</option>
@@ -236,7 +236,7 @@
                                 <button type="submit" class="btn btn-primary">💾 Benutzer anlegen</button>
                                 <button type="button" class="btn btn-secondary" onclick="closeBenutzerModal()">Abbrechen</button>
                             </div>
-                            <p style="margin-top: 16px; color: #666; font-size: 0.875rem;">
+                            <p class="hint-text">
                                 ℹ️ Der Benutzer erhält eine E-Mail mit einem Link zum Festlegen des Passworts.
                             </p>
                         </form>
@@ -257,27 +257,27 @@
                     </div>
                     <div class="image-detail-info">
                         <div class="form-group">
-                            <label>Dateiname</label>
+                            <label for="detail-filename">Dateiname</label>
                             <input type="text" id="detail-filename" class="form-control" readonly>
                         </div>
                         <div class="form-group">
-                            <label>Typ</label>
+                            <label for="detail-typ">Typ</label>
                             <input type="text" id="detail-typ" class="form-control" readonly>
                         </div>
                         <div class="form-group">
-                            <label>Beschreibung</label>
+                            <label for="detail-beschreibung">Beschreibung</label>
                             <textarea id="detail-beschreibung" class="form-control" rows="3"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Bildgröße</label>
+                            <label for="detail-size">Bildgröße</label>
                             <input type="text" id="detail-size" class="form-control" readonly>
                         </div>
                         <div class="form-group">
-                            <label>Hochgeladen am</label>
+                            <label for="detail-date">Hochgeladen am</label>
                             <input type="text" id="detail-date" class="form-control" readonly>
                         </div>
                         <div class="form-group">
-                            <label>URL</label>
+                            <label for="detail-url">URL</label>
                             <div class="url-copy-group">
                                 <input type="text" id="detail-url" class="form-control" readonly>
                                 <button type="button" class="btn btn-secondary" onclick="copyImageUrl()">📋 Kopieren</button>
