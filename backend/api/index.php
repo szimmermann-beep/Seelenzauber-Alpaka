@@ -33,11 +33,14 @@ try {
 $request_uri = $_SERVER['REQUEST_URI'];
 $request_method = $_SERVER['REQUEST_METHOD'];
 
+// Action-Parameter für einfachere API-Calls
+$action = $_GET['action'] ?? '';
+
 // API Router
 if ($request_method === 'GET') {
     
     // Root-Route
-    if (preg_match('/\/api\/?$/', $request_uri)) {
+    if (preg_match('/\/api\/?$/', $request_uri) || $request_uri === '/' || $request_uri === '/index.php') {
         echo json_encode([
             'message' => '🦙 Seelenzauber-Alpaka Backend läuft!',
             'status' => 'online',
@@ -47,7 +50,7 @@ if ($request_method === 'GET') {
     }
     
     // Test Datenbankverbindung
-    if (preg_match('/\/api\/test-db/', $request_uri)) {
+    if (preg_match('/\/api\/test-db/', $request_uri) || $action === 'test-db') {
         try {
             $stmt = $pdo->query('SELECT 1 + 1 AS result');
             $result = $stmt->fetch();
@@ -67,7 +70,7 @@ if ($request_method === 'GET') {
     }
     
     // Alle Alpakas abrufen
-    if (preg_match('/\/api\/alpakas/', $request_uri)) {
+    if (preg_match('/\/api\/alpakas/', $request_uri) || $action === 'alpakas') {
         try {
             $stmt = $pdo->query('SELECT * FROM alpakas WHERE ist_aktiv = TRUE ORDER BY name ASC');
             $alpakas = $stmt->fetchAll();
@@ -86,7 +89,7 @@ if ($request_method === 'GET') {
     }
     
     // Alle Termine abrufen
-    if (preg_match('/\/api\/termine/', $request_uri)) {
+    if (preg_match('/\/api\/termine/', $request_uri) || $action === 'termine') {
         try {
             $stmt = $pdo->query('SELECT * FROM termine WHERE ist_aktiv = TRUE ORDER BY datum ASC');
             $termine = $stmt->fetchAll();
@@ -105,7 +108,7 @@ if ($request_method === 'GET') {
     }
     
     // Galerie-Bilder abrufen
-    if (preg_match('/\/api\/galerie/', $request_uri)) {
+    if (preg_match('/\/api\/galerie/', $request_uri) || $action === 'galerie') {
         try {
             $stmt = $pdo->query('SELECT * FROM galerie WHERE ist_aktiv = TRUE ORDER BY sortierung ASC');
             $bilder = $stmt->fetchAll();
@@ -129,7 +132,7 @@ if ($request_method === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);
     
     // Kontaktanfrage speichern
-    if (preg_match('/\/api\/kontakt/', $request_uri)) {
+    if (preg_match('/\/api\/kontakt/', $request_uri) || $action === 'kontakt') {
         try {
             $stmt = $pdo->prepare('
                 INSERT INTO kontaktanfragen 
@@ -159,7 +162,7 @@ if ($request_method === 'POST') {
     }
     
     // Termin-Buchung
-    if (preg_match('/\/api\/buchung/', $request_uri)) {
+    if (preg_match('/\/api\/buchung/', $request_uri) || $action === 'buchung') {
         try {
             $stmt = $pdo->prepare('
                 INSERT INTO buchungen 

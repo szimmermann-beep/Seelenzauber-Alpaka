@@ -14,11 +14,14 @@ Monorepo-Struktur mit drei Hauptkomponenten:
 
 ## Technologie-Stack
 - Datenbank: MariaDB 10.11 (STRATO Webspace)
-  - Host: `database-501903760l.webspace-host.com`
+  - Host: `database-5019037601.webspace-host.com`
   - DB: `dbs14981836`
   - User: `dbu395884`
-- Backend: [Node.js/PHP - noch zu definieren]
-- Frontend: [React/Vue/Next.js - noch zu definieren]
+  - Passwort: In `.env` / `backend/api/config.php`
+- Backend: PHP 8.x (STRATO-optimiert)
+  - API-Endpoints in `/backend/api/`
+  - Deployed auf STRATO via SFTP
+- Frontend: [Noch zu definieren - HTML/CSS/JS oder Framework]
 - Admin: [Dashboard-Framework - noch zu definieren]
 
 ## Entwicklungs-Workflow
@@ -75,12 +78,38 @@ cd frontend && npm test
 - PHPMyAdmin verfügbar für Datenbank-Management
 
 ## Deployment
-- Backend: STRATO Webspace
-- Frontend/Admin: [Deploy-Strategie noch zu definieren]
-- Datenbank: Bereits auf STRATO gehostet
+
+### Backend (PHP auf STRATO)
+```bash
+# SFTP-Zugangsdaten
+Server: ssh.strato.de:22
+User: admin@seelenzauber-alpaka.de
+Startverzeichnis: /seelenzauber-alpaka/
+
+# Upload via SFTP
+cd backend/api
+sftp -P 22 admin@seelenzauber-alpaka.de@ssh.strato.de
+# Dateien nach /Backend/ hochladen
+```
+
+### Datenbank-Setup
+1. PHPMyAdmin: https://phpmyadmin.strato.de
+2. SQL-Schema: `backend/database/schema.sql`
+3. Test-Daten: `backend/database/testdata.sql`
+
+### Domain-Konfiguration (TODO)
+- Domain muss in STRATO auf `/seelenzauber-alpaka/Backend/` zeigen
+- Oder Dateien ins Document-Root verschieben
 
 ## Hinweise für KI-Assistenten
-- **Sicherheit:** Niemals Passwörter oder `.env`-Dateien committen
+- **Sicherheit:** Niemals Passwörter oder `.env`-Dateien committen (`backend/api/config.php` ist in .gitignore)
 - **Struktur:** Klare Trennung zwischen Frontend, Admin und Backend
-- **Datenbank:** Verwende immer die Credentials aus `.env`, niemals hardcoded
-- **Port-Zuordnung:** Backend=3000, Frontend=3001, Admin=3002
+- **Datenbank:** 
+  - Lokal: Nicht erreichbar von außerhalb STRATO
+  - Credentials in `backend/api/config.php`
+  - PHPMyAdmin für direkte DB-Verwaltung nutzen
+- **Backend:** 
+  - PHP-basiert für STRATO-Kompatibilität
+  - API-Endpoints in `backend/api/index.php`
+  - Setup-Script: `backend/api/setup.php` (Test-Daten einfügen)
+- **SFTP-Upload:** Dateien nach `/Backend/` auf STRATO hochladen

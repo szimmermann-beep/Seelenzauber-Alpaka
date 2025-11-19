@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seelenzauber Alpaka - Erlebe die Magie der Alpakas</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🦙 Seelenzauber Alpaka</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Start</a></li>
+                <li><a href="#alpakas">Unsere Alpakas</a></li>
+                <li><a href="#termine">Termine</a></li>
+                <li><a href="#galerie">Galerie</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Willkommen bei Seelenzauber Alpaka</h1>
+            <p>Erlebe die magische Welt der Alpakas</p>
+            <a href="#termine" class="btn btn-primary">Termin buchen</a>
+        </div>
+    </section>
+
+    <!-- Alpakas Section -->
+    <section id="alpakas" class="section">
+        <div class="container">
+            <h2>Unsere Alpakas</h2>
+            <p class="section-intro">Lerne unsere wundervollen Alpaka-Freunde kennen</p>
+            <div id="alpakas-container" class="grid">
+                <!-- Wird dynamisch geladen -->
+                <div class="loading">Lädt Alpakas...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Termine Section -->
+    <section id="termine" class="section bg-light">
+        <div class="container">
+            <h2>Termine & Erlebnisse</h2>
+            <p class="section-intro">Buche dein Alpaka-Erlebnis</p>
+            <div id="termine-container" class="grid">
+                <!-- Wird dynamisch geladen -->
+                <div class="loading">Lädt Termine...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galerie Section -->
+    <section id="galerie" class="section">
+        <div class="container">
+            <h2>Galerie</h2>
+            <p class="section-intro">Eindrücke von unseren Alpakas</p>
+            <div id="galerie-container" class="gallery">
+                <!-- Wird dynamisch geladen -->
+                <div class="loading">Lädt Bilder...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontakt Section -->
+    <section id="kontakt" class="section bg-light">
+        <div class="container">
+            <h2>Kontakt</h2>
+            <p class="section-intro">Schreib uns eine Nachricht</p>
+            <form id="kontakt-form" class="contact-form">
+                <div class="form-row">
+                    <input type="text" name="vorname" placeholder="Vorname" required>
+                    <input type="text" name="nachname" placeholder="Nachname" required>
+                </div>
+                <div class="form-row">
+                    <input type="email" name="email" placeholder="E-Mail" required>
+                    <input type="tel" name="telefon" placeholder="Telefon (optional)">
+                </div>
+                <input type="text" name="betreff" placeholder="Betreff" required>
+                <textarea name="nachricht" placeholder="Deine Nachricht" rows="6" required></textarea>
+                <button type="submit" class="btn btn-primary">Nachricht senden</button>
+            </form>
+            <div id="kontakt-message" class="message"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Seelenzauber Alpaka. Alle Rechte vorbehalten.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
