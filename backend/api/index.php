@@ -125,6 +125,25 @@ if ($request_method === 'GET') {
         }
         exit;
     }
+    
+    // Bewertungen abrufen
+    if (preg_match('/\/api\/bewertungen/', $request_uri) || $action === 'bewertungen') {
+        try {
+            $stmt = $pdo->query('SELECT * FROM bewertungen ORDER BY datum DESC');
+            $bewertungen = $stmt->fetchAll();
+            echo json_encode([
+                'success' => true,
+                'data' => $bewertungen
+            ]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+        exit;
+    }
 }
 
 // POST-Anfragen

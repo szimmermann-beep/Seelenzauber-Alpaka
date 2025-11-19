@@ -4,84 +4,240 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seelenzauber Alpaka - Erlebe die Magie der Alpakas</title>
+    <meta name="description" content="Erlebe unvergessliche Momente mit unseren freundlichen Alpakas. Wanderungen, Begegnungen und mehr in idyllischer Atmosphäre.">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="container">
-            <div class="logo">🦙 Seelenzauber Alpaka</div>
-            <ul class="nav-menu">
+        <div class="container navbar-container">
+            <div class="logo">
+                <span class="logo-icon">🦙</span>
+                <span class="logo-text">Seelenzauber Alpaka</span>
+            </div>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="#home">Start</a></li>
                 <li><a href="#alpakas">Unsere Alpakas</a></li>
-                <li><a href="#termine">Termine</a></li>
-                <li><a href="#galerie">Galerie</a></li>
+                <li><a href="#termine">Erlebnisse</a></li>
+                <li><a href="#bewertungen">Bewertungen</a></li>
                 <li><a href="#kontakt">Kontakt</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Willkommen bei Seelenzauber Alpaka</h1>
-            <p>Erlebe die magische Welt der Alpakas</p>
-            <a href="#termine" class="btn btn-primary">Termin buchen</a>
+    <!-- Hero Section mit Bild-Grid -->
+    <section id="home" class="hero-grid">
+        <div class="image-grid" id="hero-images">
+            <div class="grid-main" style="background-image: url('https://images.unsplash.com/photo-1591608971362-f08b2a75731a?w=1200&q=80')"></div>
+            <div class="grid-small grid-top-right" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80')"></div>
+            <div class="grid-small grid-bottom-right" style="background-image: url('https://images.unsplash.com/photo-1584811645-06b84e8a3b3c?w=600&q=80')"></div>
         </div>
+        <button class="show-all-photos" onclick="openGallery()">
+            <svg viewBox="0 0 16 16" style="height:16px;width:16px;fill:currentColor"><path d="M3 11.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-10-5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-10-5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"></path></svg>
+            Alle Fotos anzeigen
+        </button>
     </section>
 
-    <!-- Alpakas Section -->
-    <section id="alpakas" class="section">
-        <div class="container">
-            <h2>Unsere Alpakas</h2>
-            <p class="section-intro">Lerne unsere wundervollen Alpaka-Freunde kennen</p>
-            <div id="alpakas-container" class="grid">
-                <!-- Wird dynamisch geladen -->
-                <div class="loading">Lädt Alpakas...</div>
+    <!-- Main Content Container -->
+    <div class="content-wrapper">
+        <div class="container main-container">
+            <!-- Left Content -->
+            <div class="main-content">
+                <!-- Title Section -->
+                <div class="title-section">
+                    <h1>Magische Alpaka-Erlebnisse in traumhafter Natur</h1>
+                    <div class="listing-info">
+                        <div class="rating-badge">
+                            <svg viewBox="0 0 16 16" style="height:14px;width:14px;fill:currentColor"><path d="M8 .5l2.385 4.835 5.338.777-3.861 3.762.911 5.311L8 13.257l-4.773 2.928.911-5.311L.277 6.112l5.338-.777L8 .5z"></path></svg>
+                            <span class="rating-score">4.95</span>
+                            <span class="rating-count" id="total-reviews">(125 Bewertungen)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Highlights -->
+                <section class="highlights-section">
+                    <h2>Was dieses Erlebnis besonders macht</h2>
+                    <div class="highlights-grid">
+                        <div class="highlight-item">
+                            <svg viewBox="0 0 32 32" style="height:32px;width:32px;fill:currentColor"><path d="M16 1a4 4 0 0 1 4 4v2h4a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4V5a4 4 0 0 1 4-4zm0 2a2 2 0 0 0-2 2v2h4V5a2 2 0 0 0-2-2z"></path></svg>
+                            <div>
+                                <h3>Professionelle Betreuung</h3>
+                                <p>Erfahrene Alpaka-Experten begleiten dich</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <svg viewBox="0 0 32 32" style="height:32px;width:32px;fill:currentColor"><path d="M16 1c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15-8.284 0-15-6.716-15-15C1 7.716 7.716 1 16 1zm0 2C8.82 3 3 8.82 3 16s5.82 13 13 13 13-5.82 13-13S23.18 3 16 3zm1 5v7h6v2h-8V8h2z"></path></svg>
+                            <div>
+                                <h3>Flexible Termine</h3>
+                                <p>Verschiedene Zeitslots verfügbar</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <svg viewBox="0 0 32 32" style="height:32px;width:32px;fill:currentColor"><path d="M16 1c1.103 0 2 .897 2 2s-.897 2-2 2-2-.897-2-2 .897-2 2-2zm0 6c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.14-7-7 3.14-7 7-7zm0 2c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"></path></svg>
+                            <div>
+                                <h3>Kleine Gruppen</h3>
+                                <p>Persönliches Erlebnis mit max. 8 Personen</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Unsere Alpakas -->
+                <section id="alpakas" class="alpakas-section">
+                    <h2>Lerne unsere Alpaka-Familie kennen</h2>
+                    <div id="alpakas-container" class="alpakas-grid">
+                        <div class="loading">Lädt Alpakas...</div>
+                    </div>
+                </section>
+
+                <!-- Was wir bieten -->
+                <section class="features-section">
+                    <h2>Was wir bieten</h2>
+                    <ul class="features-list">
+                        <li>
+                            <svg viewBox="0 0 32 32" style="height:24px;width:24px;fill:currentColor"><path d="M16 1c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15-8.284 0-15-6.716-15-15C1 7.716 7.716 1 16 1zm-1.95 16.05L11 14l-1.414 1.414 5.364 5.364 9.192-9.192L22.728 10 14.05 17.05z"></path></svg>
+                            <span>Geführte Alpaka-Wanderungen durch malerische Landschaften</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 32 32" style="height:24px;width:24px;fill:currentColor"><path d="M16 1c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15-8.284 0-15-6.716-15-15C1 7.716 7.716 1 16 1zm-1.95 16.05L11 14l-1.414 1.414 5.364 5.364 9.192-9.192L22.728 10 14.05 17.05z"></path></svg>
+                            <span>Persönliche Begegnungen mit unseren freundlichen Alpakas</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 32 32" style="height:24px;width:24px;fill:currentColor"><path d="M16 1c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15-8.284 0-15-6.716-15-15C1 7.716 7.716 1 16 1zm-1.95 16.05L11 14l-1.414 1.414 5.364 5.364 9.192-9.192L22.728 10 14.05 17.05z"></path></svg>
+                            <span>Fotoshooting-Möglichkeiten mit den Tieren</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 32 32" style="height:24px;width:24px;fill:currentColor"><path d="M16 1c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15-8.284 0-15-6.716-15-15C1 7.716 7.716 1 16 1zm-1.95 16.05L11 14l-1.414 1.414 5.364 5.364 9.192-9.192L22.728 10 14.05 17.05z"></path></svg>
+                            <span>Entspannung in idyllischer Natur</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 32 32" style="height:24px;width:24px;fill:currentColor"><path d="M16 1c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15-8.284 0-15-6.716-15-15C1 7.716 7.716 1 16 1zm-1.95 16.05L11 14l-1.414 1.414 5.364 5.364 9.192-9.192L22.728 10 14.05 17.05z"></path></svg>
+                            <span>Für Familien, Paare und Gruppen geeignet</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Bewertungen Section -->
+                <section id="bewertungen" class="reviews-section">
+                    <div class="reviews-header">
+                        <svg viewBox="0 0 16 16" style="height:20px;width:20px;fill:currentColor"><path d="M8 .5l2.385 4.835 5.338.777-3.861 3.762.911 5.311L8 13.257l-4.773 2.928.911-5.311L.277 6.112l5.338-.777L8 .5z"></path></svg>
+                        <h2><span id="average-rating">4.95</span> · <span id="review-count">125 Bewertungen</span></h2>
+                    </div>
+                    <div class="reviews-stats" id="reviews-stats"></div>
+                    <div class="reviews-grid" id="reviews-container">
+                        <div class="loading">Lädt Bewertungen...</div>
+                    </div>
+                    <button class="btn-show-more" id="show-more-reviews">Alle Bewertungen anzeigen</button>
+                </section>
             </div>
+
+            <!-- Right Sidebar - Booking Widget -->
+            <aside class="booking-sidebar">
+                <div class="booking-card">
+                    <div class="booking-header">
+                        <div>
+                            <span class="booking-price" id="booking-price">49 €</span>
+                            <span class="booking-per">pro Person</span>
+                        </div>
+                        <div class="booking-rating">
+                            <svg viewBox="0 0 16 16" style="height:12px;width:12px;fill:currentColor"><path d="M8 .5l2.385 4.835 5.338.777-3.861 3.762.911 5.311L8 13.257l-4.773 2.928.911-5.311L.277 6.112l5.338-.777L8 .5z"></path></svg>
+                            4.95 <span>(125)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-form">
+                        <div class="date-picker" onclick="showDatePicker()">
+                            <label>DATUM</label>
+                            <input type="text" id="selected-date" placeholder="Datum wählen" readonly>
+                        </div>
+                        <div class="guests-picker">
+                            <label>GÄSTE</label>
+                            <div class="guests-control">
+                                <button onclick="changeGuests(-1)">-</button>
+                                <span id="guests-count">2</span>
+                                <button onclick="changeGuests(1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="available-times" class="available-times" style="display:none;">
+                        <h4>Verfügbare Zeiten:</h4>
+                        <div id="time-slots"></div>
+                    </div>
+
+                    <button class="btn btn-primary btn-reserve" id="reserve-btn" onclick="reserveExperience()">
+                        Reservieren
+                    </button>
+                    <p class="booking-note">Dir wird noch nichts berechnet</p>
+
+                    <div class="price-details" id="price-details" style="display:none;">
+                        <div class="price-row">
+                            <span><span id="detail-price">49 €</span> x <span id="detail-guests">2</span> Gäste</span>
+                            <span id="detail-subtotal">98 €</span>
+                        </div>
+                        <div class="price-row total">
+                            <span><strong>Gesamt</strong></span>
+                            <span id="detail-total"><strong>98 €</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
-    </section>
+    </div>
 
     <!-- Termine Section -->
     <section id="termine" class="section bg-light">
         <div class="container">
-            <h2>Termine & Erlebnisse</h2>
-            <p class="section-intro">Buche dein Alpaka-Erlebnis</p>
-            <div id="termine-container" class="grid">
-                <!-- Wird dynamisch geladen -->
+            <h2>Verfügbare Erlebnisse</h2>
+            <p class="section-intro">Wähle dein perfektes Alpaka-Abenteuer</p>
+            <div id="termine-container" class="termine-grid">
                 <div class="loading">Lädt Termine...</div>
             </div>
         </div>
     </section>
 
-    <!-- Galerie Section -->
-    <section id="galerie" class="section">
-        <div class="container">
-            <h2>Galerie</h2>
-            <p class="section-intro">Eindrücke von unseren Alpakas</p>
-            <div id="galerie-container" class="gallery">
-                <!-- Wird dynamisch geladen -->
-                <div class="loading">Lädt Bilder...</div>
-            </div>
-        </div>
     </section>
 
     <!-- Kontakt Section -->
-    <section id="kontakt" class="section bg-light">
+    <section id="kontakt" class="section">
         <div class="container">
-            <h2>Kontakt</h2>
-            <p class="section-intro">Schreib uns eine Nachricht</p>
+            <h2>Hast du Fragen?</h2>
+            <p class="section-intro">Wir freuen uns auf deine Nachricht</p>
             <form id="kontakt-form" class="contact-form">
                 <div class="form-row">
-                    <input type="text" name="vorname" placeholder="Vorname" required>
-                    <input type="text" name="nachname" placeholder="Nachname" required>
+                    <div class="form-group">
+                        <label>Vorname</label>
+                        <input type="text" name="vorname" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nachname</label>
+                        <input type="text" name="nachname" required>
+                    </div>
                 </div>
                 <div class="form-row">
-                    <input type="email" name="email" placeholder="E-Mail" required>
-                    <input type="tel" name="telefon" placeholder="Telefon (optional)">
+                    <div class="form-group">
+                        <label>E-Mail</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon (optional)</label>
+                        <input type="tel" name="telefon">
+                    </div>
                 </div>
-                <input type="text" name="betreff" placeholder="Betreff" required>
-                <textarea name="nachricht" placeholder="Deine Nachricht" rows="6" required></textarea>
+                <div class="form-group">
+                    <label>Betreff</label>
+                    <input type="text" name="betreff" required>
+                </div>
+                <div class="form-group">
+                    <label>Nachricht</label>
+                    <textarea name="nachricht" rows="6" required></textarea>
+                </div>
                 <button type="submit" class="btn btn-primary">Nachricht senden</button>
             </form>
             <div id="kontakt-message" class="message"></div>
@@ -91,9 +247,51 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Seelenzauber Alpaka. Alle Rechte vorbehalten.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🦙 Seelenzauber Alpaka</h3>
+                    <p>Magische Alpaka-Erlebnisse in traumhafter Natur</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontakt</h4>
+                    <p>E-Mail: info@seelenzauber-alpaka.de</p>
+                    <p>Tel: +49 123 456789</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Folge uns</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Facebook">👍</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Seelenzauber Alpaka. Alle Rechte vorbehalten.</p>
+            </div>
         </div>
     </footer>
+
+    <!-- Lightbox for Gallery -->
+    <div id="lightbox" class="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-prev" onclick="changeLightboxImage(-1)">‹</button>
+        <button class="lightbox-next" onclick="changeLightboxImage(1)">›</button>
+        <img id="lightbox-img" src="" alt="">
+        <div class="lightbox-counter">
+            <span id="lightbox-current">1</span> / <span id="lightbox-total">10</span>
+        </div>
+    </div>
+
+    <!-- Date Picker Modal -->
+    <div id="date-picker-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Wähle ein Datum</h3>
+                <button class="modal-close" onclick="closeDatePicker()">&times;</button>
+            </div>
+            <div id="calendar-container" class="calendar-container"></div>
+        </div>
+    </div>
 
     <script src="js/app.js"></script>
 </body>
