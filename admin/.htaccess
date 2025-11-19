@@ -1,0 +1,32 @@
+# Redirect von Subdomain zur Hauptdomain
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^admin\.seelenzauber-alpaka\.de$ [NC]
+RewriteRule ^(.*)$ https://seelenzauber-alpaka.de/admin/$1 [R=301,L]
+
+# Disable all caching for admin panel
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive Off
+</IfModule>
+
+# Force revalidation
+<FilesMatch "\.(html|htm|js|css)$">
+    FileETag None
+    <IfModule mod_headers.c>
+        Header unset ETag
+        Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+    </IfModule>
+</FilesMatch>
+
+# Protect admin directory
+<Files "index.html">
+    Order allow,deny
+    Allow from all
+</Files>

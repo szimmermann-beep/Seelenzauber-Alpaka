@@ -511,7 +511,49 @@ function showAddAlpakaForm() {
 }
 
 function showAddTerminForm() {
-    alert('Termin-Formular wird bald verfügbar sein!');
+    document.getElementById('termin-modal').classList.add('active');
+}
+
+function closeTerminModal() {
+    document.getElementById('termin-modal').classList.remove('active');
+    document.getElementById('termin-form').reset();
+}
+
+// Termin speichern
+if (document.getElementById('termin-form')) {
+    document.getElementById('termin-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const titel = document.getElementById('termin-titel').value;
+        const datum = document.getElementById('termin-datum').value;
+        const uhrzeit_von = document.getElementById('termin-uhrzeit-von').value;
+        const uhrzeit_bis = document.getElementById('termin-uhrzeit-bis').value;
+        const max_teilnehmer = document.getElementById('termin-max-teilnehmer').value;
+        const preis = document.getElementById('termin-preis').value;
+        try {
+            const response = await fetch(`${API_URL}?action=add_termin`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    titel,
+                    datum,
+                    uhrzeit_von,
+                    uhrzeit_bis,
+                    max_teilnehmer,
+                    preis
+                })
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert('✅ Termin erfolgreich angelegt!');
+                closeTerminModal();
+                loadTermine();
+            } else {
+                alert('❌ Fehler: ' + (result.error || 'Unbekannter Fehler'));
+            }
+        } catch (err) {
+            alert('❌ Fehler beim Speichern!');
+        }
+    });
 }
 
 // ============================================
