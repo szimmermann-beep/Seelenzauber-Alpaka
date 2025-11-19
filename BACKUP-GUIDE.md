@@ -2,6 +2,20 @@
 
 ## 📦 Verfügbare Backup-Typen
 
+### ⚡ Schnellstart
+```bash
+# Sofortiges Backup mit Zeitstempel (z.B. backup_20251119_143542.tar.gz)
+./scripts/backup-local.sh
+
+# Automatisches stündliches Backup
+./scripts/auto-backup.sh
+```
+
+**Alle Backups werden gespeichert in:** `~/Documents/GitHub/Seelenzauber-Alpaka-Backups/`  
+**Namensformat:** `backup_YYYYMMDD_HHMMSS.tar.gz` (Jahr-Monat-Tag_Stunde-Minute-Sekunde)
+
+---
+
 ### 1. Git Commits (Automatisch)
 - **Was:** Jede Änderung wird automatisch versioniert
 - **Vorteil:** Immer verfügbar, unbegrenzte Historie
@@ -17,20 +31,22 @@
   git reset --hard 6cd0ef2
   ```
 
-### 2. Lokales Backup (Manuell)
-- **Was:** Vollständige Kopie aller Projektdateien
-- **Speicherort:** `~/Documents/GitHub/Seelenzauber-Alpaka-Backups/`
-- **Erstellen:**
+### 2. Lokales Backup (Manuell oder Automatisch)
+- **Was:** Vollständige Kopie aller Projektdateien mit Zeitstempel
+- **Speicherort:** `~/Documents/GitHub/Seelenzauber-Alpaka-Backups/backup_YYYYMMDD_HHMMSS.tar.gz`
+- **Erstellen (einmalig):**
   ```bash
-  cd scripts
-  chmod +x backup-local.sh
-  ./backup-local.sh
+  ./scripts/backup-local.sh
+  ```
+- **Erstellen (stündlich automatisch):**
+  ```bash
+  ./scripts/auto-backup.sh
+  # Führt jede Stunde ein Backup aus
+  # Löscht automatisch Backups älter als 7 Tage
   ```
 - **Wiederherstellen:**
   ```bash
-  cd scripts
-  chmod +x restore.sh
-  ./restore.sh ~/Documents/GitHub/Seelenzauber-Alpaka-Backups/backup_20251119_140000.tar.gz
+  ./scripts/restore.sh ~/Documents/GitHub/Seelenzauber-Alpaka-Backups/backup_20251119_143542.tar.gz
   ```
 
 ### 3. Server Backup (SFTP)
