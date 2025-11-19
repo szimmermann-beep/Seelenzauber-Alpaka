@@ -2,7 +2,16 @@
 const ADMIN_BASE = `${location.origin}/Backend`;
 const API_URL = `${ADMIN_BASE}/api.php`;
 const UPLOAD_URL = `${ADMIN_BASE}/upload.php`;
+const BENUTZER_API = `${ADMIN_BASE}/benutzer-api.php`;
 let galleryImages = [];
+
+// Auth: Logout
+async function logout() {
+    try {
+        await fetch(`${ADMIN_BASE}/logout.php`, { method: 'POST', credentials: 'include' });
+    } catch(e) {}
+    location.href = '/admin/login.html';
+}
 
 // Navigation
 document.querySelectorAll('.nav-item').forEach(item => {
@@ -362,31 +371,32 @@ function removePreview() {
 
 // Drag & Drop Setup
 const dropZone = document.getElementById('drop-zone');
+if (dropZone) {
+    dropZone.addEventListener('click', () => {
+        document.getElementById('upload-file').click();
+    });
 
-dropZone.addEventListener('click', () => {
-    document.getElementById('upload-file').click();
-});
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
 
-dropZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropZone.classList.add('drag-over');
-});
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+    });
 
-dropZone.addEventListener('dragleave', () => {
-    dropZone.classList.remove('drag-over');
-});
-
-dropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.classList.remove('drag-over');
-    
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-        selectedFile = files[0];
-        document.getElementById('upload-file').files = files;
-        showPreview(files[0]);
-    }
-});
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            selectedFile = files[0];
+            document.getElementById('upload-file').files = files;
+            showPreview(files[0]);
+        }
+    });
+}
 
 // Upload-Formular absenden
 document.getElementById('upload-form').addEventListener('submit', async (e) => {
@@ -703,8 +713,6 @@ loadDashboard();
 // BENUTZER-VERWALTUNG
 // ============================================
 
-const BENUTZER_API = `${ADMIN_BASE}/benutzer-api.php`;
-
 async function loadBenutzer() {
     try {
         const response = await fetch(`${BENUTZER_API}?action=benutzer`);
@@ -736,8 +744,8 @@ async function loadBenutzer() {
                                 <td>${formatDate(user.erstellt_am)}</td>
                                 <td>${user.letzter_login ? formatDate(user.letzter_login) : '—'}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-secondary" onclick="toggleBenutzer(${user.id})">${user.ist_aktiv ? 'Deaktivieren' : 'Aktivieren'}</button>
-                                    <button class="btn btn-sm btn-danger" onclick="deleteBenutzer(${user.id})">Löschen</button>
+                                    <button class="btn btn-sm btn-primary" onclick="resendEmail(${user.id}, '${user.email}')" title="Passwort-Link neu senden">📧 E-Mail senden</button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteBenutzer(${user.id}, '${user.name}')" title="Benutzer löschen">🗑️ Löschen</button>
                                 </td>
                             </tr>
                         `).join('')}
@@ -795,8 +803,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-async function deleteBenutzer(id) {
-    if (!confirm('🗑️ Möchtest du diesen Benutzer wirklich löschen?')) {
+async function resendEmail(id, email) {
+    if (!confirm(`📧 Passwort-Reset-Link erneut an ${email} senden?`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${BENUTZER_API}?action=resend_email`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        });
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('✅ E-Mail wurde erneut versendet!\n\nFalls die E-Mail nicht ankommt, hier ist der Link:\n' + result.reset_link);
+            loadBenutzer();
+        } else {
+            alert('❌ Fehler: ' + result.error);
+        }
+    } catch (error) {
+        alert('❌ Fehler beim Versenden!');
+    }
+}
+
+async function deleteBenutzer(id, name) {
+    if (!confirm(`🗑️ Benutzer "${name}" wirklich löschen?\n\nDiese Aktion kann nicht rückgängig gemacht werden!`)) {
         return;
     }
     
@@ -818,6 +850,7 @@ async function deleteBenutzer(id) {
         alert('❌ Fehler beim Löschen!');
     }
 }
+
 
 async function toggleBenutzer(id) {
     try {

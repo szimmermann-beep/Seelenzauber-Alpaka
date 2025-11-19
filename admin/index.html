@@ -11,6 +11,15 @@
 </head>
 </head>
 <body>
+        <script>
+            // Auth-Check: nicht eingeloggt? -> Login
+            (function(){
+                const ADMIN_BASE = `${location.origin}/Backend`;
+                fetch(`${ADMIN_BASE}/me.php`, { credentials: 'include' })
+                    .then(r=>r.json()).then(d=>{ if (!d.authenticated) location.replace('/admin/login.html'); })
+                    .catch(()=>{});
+            })();
+        </script>
     <div class="admin-container">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -52,6 +61,7 @@
                 <h1 id="page-title">Dashboard</h1>
                 <div class="user-info">
                     <span>Admin</span>
+                    <a href="#" onclick="logout(); return false;" class="btn btn-secondary" style="margin-left:12px;">Abmelden</a>
                 </div>
             </header>
 

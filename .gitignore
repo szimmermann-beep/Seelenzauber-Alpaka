@@ -21,6 +21,9 @@ build/
 *.swp
 *.swo
 
+# Lokale SFTP Konfiguration (falls .vscode erlaubt werden soll, diese einzelne Datei trotzdem ignorieren)
+.vscode/sftp.json
+
 # OS
 .DS_Store
 Thumbs.db

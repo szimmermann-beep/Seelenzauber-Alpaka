@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Passwort festlegen – Seelenzauber Alpaka</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <style>
+    body { display:flex; min-height:100vh; align-items:center; justify-content:center; background:#f5f5f7; font-family:system-ui, Arial, sans-serif; }
+    .reset-card { background:#fff; padding:32px 40px; width:100%; max-width:420px; border-radius:14px; box-shadow:0 4px 22px rgba(0,0,0,.08); }
+    h1 { font-size:1.4rem; margin:0 0 1.2rem; letter-spacing:.3px; }
+    .token-status { margin-bottom:1rem; font-size:.9rem; }
+    .hidden { display:none; }
+    .error { color:#b80000; }
+    .success { color:#077d35; }
+    button { cursor:pointer; background:#4b3c2f; color:#fff; padding:12px 18px; border:none; border-radius:8px; font-size:1rem; width:100%; font-weight:600; letter-spacing:.4px; }
+    button:disabled { opacity:.5; cursor:not-allowed; }
+    .footer-note { margin-top:24px; font-size:.75rem; color:#555; text-align:center; line-height:1.4; }
+  </style>
+</head>
+<body>
+  <div class="reset-card">
+    <h1>Passwort festlegen</h1>
+    <div id="tokenStatus" class="token-status">Token wird geprüft…</div>
+
+    <form id="resetForm" class="hidden" autocomplete="off">
+      <div class="form-group">
+        <label for="password">Neues Passwort</label>
+        <input id="password" name="password" type="password" class="form-control" minlength="8" required placeholder="Mindestens 8 Zeichen" />
+      </div>
+      <div class="form-group">
+        <label for="password2">Passwort bestätigen</label>
+        <input id="password2" name="password2" type="password" class="form-control" minlength="8" required placeholder="Wiederholen" />
+      </div>
+      <button id="submitBtn" type="submit" disabled>Passwort speichern</button>
+    </form>
+
+    <div id="result" class="hidden"></div>
+
+    <div class="footer-note">
+      Falls Probleme auftreten, melde dich bitte beim Administrator.
+    </div>
+  </div>
+
+<script>
+(function(){
+  const qs = new URLSearchParams(location.search);
+  const token = qs.get('token');
+  const tokenStatusEl = document.getElementById('tokenStatus');
+  const form = document.getElementById('resetForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const resultEl = document.getElementById('result');
+  const passwordInput = document.getElementById('password');
+  const password2Input = document.getElementById('password2');
+
+  if(!token) {
+    tokenStatusEl.textContent = 'Kein Token angegeben. Bitte den Link aus der E-Mail verwenden.';
+    tokenStatusEl.classList.add('error');
+    return;
+  }
+
+  function validatePasswords(){
+    const p1 = passwordInput.value.trim();
+    const p2 = password2Input.value.trim();
+    let ok = true;
+    if(p1.length < 8) ok = false;
+    if(p1 !== p2) ok = false;
+    submitBtn.disabled = !ok;
+  }
+
+  passwordInput.addEventListener('input', validatePasswords);
+  password2Input.addEventListener('input', validatePasswords);
+
+  // Token vorab prüfen
+  fetch('/Backend/reset-password.php?action=validate&token=' + encodeURIComponent(token))
+    .then(r => r.json())
+    .then(data => {
+      if(data.success){
+        tokenStatusEl.textContent = 'Token gültig. Bitte neues Passwort eingeben.';
+        tokenStatusEl.classList.add('success');
+        form.classList.remove('hidden');
+      } else {
+        tokenStatusEl.textContent = data.error || 'Ungültiger oder abgelaufener Token.';
+        tokenStatusEl.classList.add('error');
+      }
+    })
+    .catch(()=>{
+      tokenStatusEl.textContent = 'Fehler beim Prüfen des Tokens.';
+      tokenStatusEl.classList.add('error');
+    });
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    submitBtn.disabled = true;
+    resultEl.className = ''; resultEl.classList.add('token-status');
+    resultEl.textContent = 'Wird gespeichert…';
+    resultEl.classList.remove('hidden');
+
+    const body = { token, password: passwordInput.value.trim() };
+
+    fetch('/Backend/reset-password.php?action=reset', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    })
+      .then(r=>r.json())
+      .then(data=>{
+        if(data.success){
+          resultEl.textContent = 'Passwort erfolgreich gesetzt. Du kannst dich jetzt einloggen.';
+          resultEl.classList.add('success');
+          form.classList.add('hidden');
+        } else {
+          resultEl.textContent = data.error || 'Fehler beim Setzen des Passworts.';
+          resultEl.classList.add('error');
+          submitBtn.disabled = false;
+        }
+      })
+      .catch(()=>{
+        resultEl.textContent = 'Netzwerkfehler.';
+        resultEl.classList.add('error');
+        submitBtn.disabled = false;
+      });
+  });
+})();
+</script>
+</body>
+</html>
