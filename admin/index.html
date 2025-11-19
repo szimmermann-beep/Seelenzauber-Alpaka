@@ -15,6 +15,9 @@
                 <a href="#dashboard" class="nav-item active" data-view="dashboard">
                     📊 Dashboard
                 </a>
+                <a href="#einstellungen" class="nav-item" data-view="einstellungen">
+                    ⚙️ Einstellungen
+                </a>
                 <a href="#alpakas" class="nav-item" data-view="alpakas">
                     🦙 Alpakas
                 </a>
@@ -100,8 +103,96 @@
                     <button class="btn btn-primary" onclick="showAddImageForm()">+ Bild hochladen</button>
                     <div id="galerie-list" class="gallery-grid"></div>
                 </div>
+
+                <!-- Einstellungen View -->
+                <div id="view-einstellungen" class="view">
+                    <div class="settings-container">
+                        <h2>Website-Einstellungen</h2>
+                        <form id="settings-form" class="settings-form">
+                            <div class="form-group">
+                                <label>Website-Name</label>
+                                <input type="text" id="site-name" class="form-control" placeholder="Seelenzauber Alpaka">
+                            </div>
+                            <div class="form-group">
+                                <label>Website-Beschreibung (SEO)</label>
+                                <textarea id="site-description" class="form-control" rows="3" placeholder="Alpaka-Wanderungen und -Erlebnisse..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Keywords (Google, kommagetrennt)</label>
+                                <input type="text" id="site-keywords" class="form-control" placeholder="Alpaka, Wanderung, Tirol">
+                            </div>
+                            <div class="form-group">
+                                <label>Favicon URL</label>
+                                <input type="text" id="site-favicon" class="form-control" placeholder="/images/favicon.ico">
+                            </div>
+                            <div class="form-group">
+                                <label>Open Graph Bild (Facebook/Social)</label>
+                                <input type="text" id="site-og-image" class="form-control" placeholder="/images/og-image.jpg">
+                            </div>
+                            <div class="form-group">
+                                <label>Google Analytics ID</label>
+                                <input type="text" id="site-ga-id" class="form-control" placeholder="G-XXXXXXXXXX">
+                            </div>
+                            <div class="form-group">
+                                <label>Microsoft Clarity ID</label>
+                                <input type="text" id="site-clarity-id" class="form-control" placeholder="XXXXXXXXXX">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Einstellungen speichern</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </main>
+    </div>
+
+    <!-- Bild-Detail Modal -->
+    <div id="image-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Bild-Details</h2>
+                <button class="modal-close" onclick="closeImageModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="image-detail-container">
+                    <div class="image-detail-preview">
+                        <img id="detail-image" src="" alt="">
+                    </div>
+                    <div class="image-detail-info">
+                        <div class="form-group">
+                            <label>Dateiname</label>
+                            <input type="text" id="detail-filename" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Typ</label>
+                            <input type="text" id="detail-typ" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Beschreibung</label>
+                            <textarea id="detail-beschreibung" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Bildgröße</label>
+                            <input type="text" id="detail-size" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Hochgeladen am</label>
+                            <input type="text" id="detail-date" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>URL</label>
+                            <div class="url-copy-group">
+                                <input type="text" id="detail-url" class="form-control" readonly>
+                                <button type="button" class="btn btn-secondary" onclick="copyImageUrl()">📋 Kopieren</button>
+                            </div>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" class="btn btn-danger" onclick="deleteImage()">🗑️ Bild löschen</button>
+                            <button type="button" class="btn btn-primary" onclick="saveImageDetails()">💾 Speichern</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/admin.js"></script>

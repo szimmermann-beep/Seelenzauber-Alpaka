@@ -29,6 +29,7 @@ function switchView(view) {
     // Update title
     const titles = {
         'dashboard': 'Dashboard',
+        'einstellungen': 'Website-Einstellungen',
         'alpakas': 'Alpakas verwalten',
         'termine': 'Termine verwalten',
         'buchungen': 'Buchungen',
@@ -45,6 +46,9 @@ async function loadViewData(view) {
     switch(view) {
         case 'dashboard':
             loadDashboard();
+            break;
+        case 'einstellungen':
+            loadEinstellungen();
             break;
         case 'alpakas':
             loadAlpakas();
@@ -196,10 +200,10 @@ async function loadGalerie() {
         
         if (data.success && galleryImages.length > 0) {
             container.innerHTML = galleryImages.map(bild => `
-                <div class="gallery-item" data-id="${bild.id}" onclick="showImageDetail(${bild.id})">
+                <div class="gallery-item" onclick="showImageDetail(${bild.id})" style="cursor: pointer;">
                     <img src="${ADMIN_BASE}${bild.dateipfad}" alt="${bild.beschreibung || 'Bild'}">
-                    <div class="gallery-item-actions">
-                        <button class="btn-icon delete" onclick="event.stopPropagation(); deleteBild(${bild.id})" title="Löschen">🗑️</button>
+                    <div class="gallery-item-info">
+                        <small>${bild.dateiname}</small>
                     </div>
                 </div>
             `).join('');
@@ -494,12 +498,159 @@ function formatDate(dateString) {
     });
 }
 
+function formatFileSize(bytes) {
+    if (!bytes) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+}
+
 function showAddAlpakaForm() {
     alert('Alpaka-Formular wird bald verfügbar sein!');
 }
 
 function showAddTerminForm() {
     alert('Termin-Formular wird bald verfügbar sein!');
+}
+
+// ============================================
+// EINSTELLUNGEN FUNKTIONEN
+// ============================================
+
+let currentImageId = null;
+
+function loadEinstellungen() {
+    // Lädt gespeicherte Einstellungen aus localStorage
+    document.getElementById('site-name').value = localStorage.getItem('site-name') || 'Seelenzauber Alpaka';
+    document.getElementById('site-description').value = localStorage.getItem('site-description') || '';
+    document.getElementById('site-keywords').value = localStorage.getItem('site-keywords') || '';
+    document.getElementById('site-favicon').value = localStorage.getItem('site-favicon') || '';
+    document.getElementById('site-og-image').value = localStorage.getItem('site-og-image') || '';
+    document.getElementById('site-ga-id').value = localStorage.getItem('site-ga-id') || '';
+    document.getElementById('site-clarity-id').value = localStorage.getItem('site-clarity-id') || '';
+}
+
+// Einstellungen-Form Handler
+document.addEventListener('DOMContentLoaded', () => {
+    const settingsForm = document.getElementById('settings-form');
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Speichere in localStorage (später: Backend-API)
+            const settings = {
+                'site-name': document.getElementById('site-name').value,
+                'site-description': document.getElementById('site-description').value,
+                'site-keywords': document.getElementById('site-keywords').value,
+                'site-favicon': document.getElementById('site-favicon').value,
+                'site-og-image': document.getElementById('site-og-image').value,
+                'site-ga-id': document.getElementById('site-ga-id').value,
+                'site-clarity-id': document.getElementById('site-clarity-id').value
+            };
+            
+            Object.keys(settings).forEach(key => {
+                localStorage.setItem(key, settings[key]);
+            });
+            
+            alert('✅ Einstellungen gespeichert!');
+        });
+    }
+});
+
+// ============================================
+// BILD-DETAIL MODAL FUNKTIONEN
+// ============================================
+
+function showImageDetail(bildId) {
+    const bild = galleryImages.find(b => b.id === bildId);
+    if (!bild) return;
+    
+    currentImageId = bildId;
+    
+    // Fülle Modal mit Daten
+    document.getElementById('detail-image').src = `${ADMIN_BASE}${bild.dateipfad}`;
+    document.getElementById('detail-filename').value = bild.dateiname || '';
+    document.getElementById('detail-typ').value = bild.typ || 'galerie';
+    document.getElementById('detail-beschreibung').value = bild.beschreibung || '';
+    document.getElementById('detail-size').value = formatFileSize(bild.groesse);
+    document.getElementById('detail-date').value = formatDate(bild.erstellt_am);
+    document.getElementById('detail-url').value = `${ADMIN_BASE}${bild.dateipfad}`;
+    
+    // Modal öffnen
+    document.getElementById('image-modal').classList.add('active');
+}
+
+function closeImageModal() {
+    document.getElementById('image-modal').classList.remove('active');
+    currentImageId = null;
+}
+
+function copyImageUrl() {
+    const url = document.getElementById('detail-url').value;
+    navigator.clipboard.writeText(url).then(() => {
+        alert('✅ URL in Zwischenablage kopiert!');
+    }).catch(() => {
+        alert('❌ Kopieren fehlgeschlagen');
+    });
+}
+
+async function deleteImage() {
+    if (!currentImageId) return;
+    
+    if (!confirm('🗑️ Möchtest du dieses Bild wirklich löschen?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(UPLOAD_URL, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: currentImageId })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('✅ Bild erfolgreich gelöscht!');
+            closeImageModal();
+            loadGalerie();
+        } else {
+            alert('❌ Fehler beim Löschen: ' + result.error);
+        }
+    } catch (error) {
+        console.error('Fehler beim Löschen:', error);
+        alert('❌ Fehler beim Löschen');
+    }
+}
+
+async function saveImageDetails() {
+    if (!currentImageId) return;
+    
+    const beschreibung = document.getElementById('detail-beschreibung').value;
+    
+    try {
+        const response = await fetch(UPLOAD_URL, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                id: currentImageId,
+                beschreibung: beschreibung
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('✅ Änderungen gespeichert!');
+            loadGalerie();
+        } else {
+            alert('❌ Fehler beim Speichern: ' + result.error);
+        }
+    } catch (error) {
+        console.error('Fehler beim Speichern:', error);
+        alert('❌ Fehler beim Speichern');
+    }
 }
 
 // Initial Load
