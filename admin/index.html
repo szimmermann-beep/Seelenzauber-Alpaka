@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Seelenzauber Alpaka</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">🦙 Admin Panel</div>
+            <nav class="admin-nav">
+                <a href="#dashboard" class="nav-item active" data-view="dashboard">
+                    📊 Dashboard
+                </a>
+                <a href="#alpakas" class="nav-item" data-view="alpakas">
+                    🦙 Alpakas
+                </a>
+                <a href="#termine" class="nav-item" data-view="termine">
+                    📅 Termine
+                </a>
+                <a href="#buchungen" class="nav-item" data-view="buchungen">
+                    📝 Buchungen
+                </a>
+                <a href="#kontakt" class="nav-item" data-view="kontakt">
+                    ✉️ Kontaktanfragen
+                </a>
+                <a href="#galerie" class="nav-item" data-view="galerie">
+                    🖼️ Galerie
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/" class="btn-logout">← Zur Website</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="admin-header">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="user-info">
+                    <span>Admin</span>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Dashboard View -->
+                <div id="view-dashboard" class="view active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-alpakas">0</div>
+                            <div class="stat-label">Alpakas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-termine">0</div>
+                            <div class="stat-label">Aktive Termine</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-buchungen">0</div>
+                            <div class="stat-label">Buchungen</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-kontakt">0</div>
+                            <div class="stat-label">Neue Anfragen</div>
+                        </div>
+                    </div>
+
+                    <div class="recent-section">
+                        <h2>Neueste Buchungen</h2>
+                        <div id="recent-buchungen" class="data-table"></div>
+                    </div>
+                </div>
+
+                <!-- Alpakas View -->
+                <div id="view-alpakas" class="view">
+                    <button class="btn btn-primary" onclick="showAddAlpakaForm()">+ Neues Alpaka</button>
+                    <div id="alpakas-list" class="data-table"></div>
+                </div>
+
+                <!-- Termine View -->
+                <div id="view-termine" class="view">
+                    <button class="btn btn-primary" onclick="showAddTerminForm()">+ Neuer Termin</button>
+                    <div id="termine-list" class="data-table"></div>
+                </div>
+
+                <!-- Buchungen View -->
+                <div id="view-buchungen" class="view">
+                    <div id="buchungen-list" class="data-table"></div>
+                </div>
+
+                <!-- Kontakt View -->
+                <div id="view-kontakt" class="view">
+                    <div id="kontakt-list" class="data-table"></div>
+                </div>
+
+                <!-- Galerie View -->
+                <div id="view-galerie" class="view">
+                    <button class="btn btn-primary" onclick="showAddImageForm()">+ Bild hochladen</button>
+                    <div id="galerie-list" class="gallery-grid"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
